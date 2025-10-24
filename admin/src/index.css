@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --Montserrat :  "Montserrat", sans-serif;
+};
+
+@layer base {
+
+   @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+    *{
+        @apply m-0 p-0 box-border
+    }
+
+    ul,ol,li{
+        @apply m-0 p-0 no-underline 
+    }
+    img{
+        @apply  align-middle inline-block
+    }
+    h1,h2,h3,h4,h5,h6,img,div{
+        @apply m-0 p-0
+    }
+};
+
