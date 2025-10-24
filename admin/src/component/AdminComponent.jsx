@@ -5,16 +5,48 @@ import { FaChalkboardUser } from "react-icons/fa6";
 
 
 const AdminComponent = () => {
-  const [addproduct,setaddproduct] = useState(false);8
+  const [addproduct,setaddproduct] = useState(false);
+  const [fromdata, setfromdata] = useState({
+    name: "",
+    title: "",
+    description: "",
+    category: "",
+    price: "",
+    stock: "",
+    avatar: "",
+  });
 
 //HandleAdd Function is here
 const HandleAdd = () => {
      setaddproduct(!addproduct);
 };
 
+// HandleChange Function is start here
+const HandleChange = (e) => {
+  setfromdata ({
+     ...fromdata,
+     [e.target.id] : e.target.value,
+     
+  })
+}
+
 // HandleSubmit function is start here
-const HandleSubmit = (e) => {
+const HandleSubmit = async (e) => {
     e.preventDefault()
+    try {
+       const res = await fetch("http://localhost:5000/product",{
+          method: "POST",
+          headers: {
+            "Content-Type" : "application/json"
+          },
+          body: JSON.stringify(fromdata)
+       })
+
+       const data = await res.json();
+        console.log(data)
+    } catch (err) {
+        console.log(err.message)
+    }
 };
 
   return (
@@ -33,10 +65,10 @@ const HandleSubmit = (e) => {
                 className="flex items-center gap-x-1 cursor-pointer px-4 mt-4"
                 onClick={HandleAdd}
               >
-                <span className={`text-white font-bold text-lg ${addproduct && "text-lime-500"}`}>
+                <span className={`${addproduct ? "font-bold text-md text-lime-500" : "text-white font-bold text-md" }`}>
                   <FaCirclePlus />
                 </span>
-                <h1 className="font-Montserrat font-bold text-lg text-white">
+                <h1 className="font-Montserrat font-bold text-md text-white">
                   Add Products
                 </h1>
               </div>
@@ -44,10 +76,10 @@ const HandleSubmit = (e) => {
                 className="flex items-center gap-x-1 cursor-pointer px-4 mt-4"
                 
               >
-                <span className="text-white font-bold text-lg">
+                <span className="text-white font-bold text-md">
                   <MdLocalGroceryStore />
                 </span>
-                <h1 className="font-Montserrat font-bold text-lg text-white">
+                <h1 className="font-Montserrat font-bold text-md text-white">
                   Products
                 </h1>
               </div>
@@ -55,10 +87,10 @@ const HandleSubmit = (e) => {
                 className="flex items-center gap-x-1 cursor-pointer px-4 mt-4"
                 
               >
-                <span className="text-white font-bold text-lg">
+                <span className="text-white font-bold text-md">
                   <FaChalkboardUser />
                 </span>
-                <h1 className="font-Montserrat font-bold text-lg text-white">
+                <h1 className="font-Montserrat font-bold text-md text-white">
                   Order
                 </h1>
               </div>
@@ -67,7 +99,7 @@ const HandleSubmit = (e) => {
               {/* From Data is here */}
               {addproduct && (
                 <div className="px-4 mt-10">
-                  <form action="" onSubmit={HandleSubmit}>
+                  <form onSubmit={HandleSubmit}>
                     <div className="flex flex-col gap-y-4">
                       <div>
                         <input
@@ -75,15 +107,17 @@ const HandleSubmit = (e) => {
                           id="avatar"
                           name="avatar"
                           className="cursor-pointer"
+                          onChange={HandleChange}
                         />
                       </div>
                       <div>
                         <input
                           type="text"
                           placeholder="Product Name"
-                          id="pname"
-                          name="pname"
+                          id="name"
+                          name="name"
                           className="w-[200px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
+                          onChange={HandleChange}
                         />
                       </div>
                       <div>
@@ -93,6 +127,7 @@ const HandleSubmit = (e) => {
                           id="title"
                           name="title"
                           className="w-[300px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
+                          onChange={HandleChange}
                         />
                       </div>
                       <div>
@@ -102,6 +137,7 @@ const HandleSubmit = (e) => {
                           id="description"
                           name="description"
                           className="w-[350px] outline-green-700 min-h-24  rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
+                          onChange={HandleChange}
                         ></textarea>
                       </div>
                       <div>
@@ -109,6 +145,7 @@ const HandleSubmit = (e) => {
                           name="category"
                           id="category"
                           className="w-[300px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black cursor-pointer"
+                          onChange={HandleChange}
                         >
                           <option value="Select Catagory">
                             Select Catagory
@@ -121,24 +158,26 @@ const HandleSubmit = (e) => {
                       </div>
                       <div>
                         <input
-                          type="text"
+                          type="number"
                           placeholder="Price"
                           id="price"
                           name="price"
                           className="w-[100px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
+                          onChange={HandleChange}
                         />
                       </div>
                       <div>
                         <input
-                          type="text"
+                          type="number"
                           placeholder="Stock"
                           id="stock"
                           name="stock"
                           className="w-[100px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
+                          onChange={HandleChange}
                         />
                       </div>
                       <div>
-                        <button className="px-6 py-2 bg-lime-500 rounded-md font-Montserrat font-bold text-white">
+                        <button type="submit" className="px-6 py-2 bg-lime-500 rounded-md font-Montserrat font-bold text-white">
                           Add Product
                         </button>
                       </div>
