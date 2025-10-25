@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public", "uploads")));
 
 //  Route Handler
 app.use("/product", addProduct)

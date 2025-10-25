@@ -26,10 +26,10 @@ const productData = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  avatar: {
+  avatar:[{
     type : String,
     required : true,
-  },
+  }],
 });
 
 

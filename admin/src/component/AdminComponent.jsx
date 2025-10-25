@@ -2,19 +2,21 @@ import React, { useState } from 'react'
 import { FaCirclePlus } from "react-icons/fa6";
 import { MdLocalGroceryStore } from "react-icons/md";
 import { FaChalkboardUser } from "react-icons/fa6";
-
+import axios from "axios"
 
 const AdminComponent = () => {
+
   const [addproduct,setaddproduct] = useState(false);
-  const [fromdata, setfromdata] = useState({
+  const [productData, setproductData] = useState({
     name: "",
     title: "",
     description: "",
     category: "",
     price: "",
     stock: "",
-    avatar: "",
   });
+
+  const[productPhoto,seproductPhoto] = useState(null);
 
 //HandleAdd Function is here
 const HandleAdd = () => {
@@ -23,30 +25,39 @@ const HandleAdd = () => {
 
 // HandleChange Function is start here
 const HandleChange = (e) => {
-  setfromdata ({
-     ...fromdata,
+  setproductData ({
+     ...productData,
      [e.target.id] : e.target.value,
      
-  })
-}
+  });
+  
+};
+
+const HandleChangeImg = (e) =>{
+   seproductPhoto(e.target.files[0]);
+};
 
 // HandleSubmit function is start here
 const HandleSubmit = async (e) => {
     e.preventDefault()
+   const formData = new FormData();
+       formData.append("name", productData.name);
+       formData.append("title", productData.title);
+       formData.append("description", productData.description);
+       formData.append("category", productData.category);
+       formData.append("price", productData.price);
+       formData.append("stock", productData.stock);
+       formData.append("avatar", productPhoto);
+    
     try {
-       const res = await fetch("http://localhost:5000/product",{
-          method: "POST",
-          headers: {
-            "Content-Type" : "application/json"
-          },
-          body: JSON.stringify(fromdata)
-       })
-
-       const data = await res.json();
-        console.log(data)
+      const res = await axios.post("http://localhost:5000/product", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+     alert(res.data.message)
     } catch (err) {
-        console.log(err.message)
+      console.error(err);
     }
+
 };
 
   return (
@@ -99,7 +110,7 @@ const HandleSubmit = async (e) => {
               {/* From Data is here */}
               {addproduct && (
                 <div className="px-4 mt-10">
-                  <form onSubmit={HandleSubmit}>
+                  <form>
                     <div className="flex flex-col gap-y-4">
                       <div>
                         <input
@@ -107,7 +118,8 @@ const HandleSubmit = async (e) => {
                           id="avatar"
                           name="avatar"
                           className="cursor-pointer"
-                          onChange={HandleChange}
+                          onChange={HandleChangeImg}
+                          multiple
                         />
                       </div>
                       <div>
@@ -177,7 +189,7 @@ const HandleSubmit = async (e) => {
                         />
                       </div>
                       <div>
-                        <button type="submit" className="px-6 py-2 bg-lime-500 rounded-md font-Montserrat font-bold text-white">
+                        <button type="submit" className="px-6 py-2 bg-lime-500 rounded-md font-Montserrat font-bold text-white" onClick={HandleSubmit}>
                           Add Product
                         </button>
                       </div>
@@ -190,7 +202,7 @@ const HandleSubmit = async (e) => {
         </div>
       </div>
     </>
-  );
-}
+ )}
+
 
 export default AdminComponent

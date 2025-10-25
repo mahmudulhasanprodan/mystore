@@ -7,31 +7,34 @@ const createError = require("http-errors")
 function UploadFile(req,res,next) {
     
 // Upload Folder Selection 
-const Upload_Folder = path.join(__dirname, "./../public/uploads");
+const Upload_Folder = `${__dirname}/../public/uploads`;
+
+
 
 //  Controls Files and storage
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, Upload_Folder);
     },
-
-    filename: (req, file, cb) => {
+    filename: (req, file, cb) => { 
         const extName = path.extname(file.originalname);
         const FileName = file.originalname
-                         .replace(extName, "")
-                         .split(" ")
+                         .replace(extName, " ")
                          .toLowerCase()
+                         .split(" ")
                          .join("-") + "-" + Date.now();
                          
        cb(null,  FileName + extName)
-    },
+      },
   });
 
   const upload = multer({
     storage: storage,
     limits: {
-      fileSize : 1000000,
-      fileFilter:  (req, file, cb) => {
+      fileSize : 6000000, // 1MB
+    },
+     fileFilter: (req, file, cb) => {
+      
         if (
           file.mimetype === "image/jpg" ||
           file.mimetype === "image/png" ||
@@ -42,19 +45,20 @@ const Upload_Folder = path.join(__dirname, "./../public/uploads");
           cb(createError(400, "Only jpg, png or jpeg allowed"));
         }
       },
-    },
   });
  
+  
   // Call the middleware Funciton
-  upload.any()(req ,res, (err) => {
-      if(err) {
-        res.send(500).json({
-            Error : err.message
-        })
-      }else {
-        next();
-      }
-  })
+  upload.any()(req, res, (err) => {
+    if (err) {
+      res.status(500).json({
+        Error: err.message,
+      });
+    } else {
+      next();
+    }
+  });
+
 };
 
 
