@@ -4,10 +4,12 @@ import { MdLocalGroceryStore } from "react-icons/md";
 import { FaChalkboardUser } from "react-icons/fa6";
 import { SuccessTost } from '../utils/utils';
 import axios from "axios"
+import Product from './Product';
 
 const AdminComponent = () => {
 
   const [addproduct,setaddproduct] = useState(false);
+  const [product,setproduct] = useState(false);
   const [productData, setproductData] = useState({
     name: "",
     title: "",
@@ -23,6 +25,7 @@ const AdminComponent = () => {
 //HandleAdd Function is here
 const HandleAdd = () => {
      setaddproduct(!addproduct);
+     setproduct(false)
 };
 
 // HandleChange Function is start here
@@ -74,6 +77,12 @@ const HandleSubmit = async (e) => {
 
 };
 
+// HandleProduct Function is here
+const HandleProduct = () => {
+      setproduct(!product)
+      setaddproduct(false)
+};
+
   return (
     <>
       <div>
@@ -90,28 +99,38 @@ const HandleSubmit = async (e) => {
                 className="flex items-center gap-x-1 cursor-pointer px-4 mt-4"
                 onClick={HandleAdd}
               >
-                <span className={`${addproduct ? "font-bold text-md text-lime-500" : "text-white font-bold text-md" }`}>
+                <span
+                  className={`${
+                    addproduct
+                      ? "font-bold text-md text-lime-500"
+                      : "text-white font-bold text-md"
+                  }`}
+                >
                   <FaCirclePlus />
                 </span>
                 <h1 className="font-Montserrat font-bold text-md text-white">
                   Add Products
                 </h1>
               </div>
-               <div
+              {/* Product is here */}
+              <div
                 className="flex items-center gap-x-1 cursor-pointer px-4 mt-4"
-                
+                onClick={HandleProduct}
               >
-                <span className="text-white font-bold text-md">
+                <span
+                  className={`${
+                    product
+                      ? "text-lime-500 font-bold text-md"
+                      : "text-white font-bold text-md"
+                  }`}
+                >
                   <MdLocalGroceryStore />
                 </span>
                 <h1 className="font-Montserrat font-bold text-md text-white">
                   Products
                 </h1>
               </div>
-               <div
-                className="flex items-center gap-x-1 cursor-pointer px-4 mt-4"
-                
-              >
+              <div className="flex items-center gap-x-1 cursor-pointer px-4 mt-4">
                 <span className="text-white font-bold text-md">
                   <FaChalkboardUser />
                 </span>
@@ -156,7 +175,7 @@ const HandleSubmit = async (e) => {
                           name="title"
                           className="w-[300px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
-                           value={productData.title}
+                          value={productData.title}
                         />
                       </div>
                       <div>
@@ -176,7 +195,7 @@ const HandleSubmit = async (e) => {
                           id="category"
                           className="w-[300px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black cursor-pointer"
                           onChange={HandleChange}
-                           value={productData.name}
+                          value={productData.category}
                         >
                           <option value="Select Catagory">
                             Select Catagory
@@ -195,7 +214,7 @@ const HandleSubmit = async (e) => {
                           name="price"
                           className="w-[100px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
-                           value={productData.price}
+                          value={productData.price}
                         />
                       </div>
                       <div>
@@ -206,11 +225,15 @@ const HandleSubmit = async (e) => {
                           name="stock"
                           className="w-[100px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
-                           value={productData.stock}
+                          value={productData.stock}
                         />
                       </div>
                       <div>
-                        <button type="submit" className="px-6 py-2 bg-lime-500 rounded-md font-Montserrat font-bold text-white" onClick={HandleSubmit}>
+                        <button
+                          type="submit"
+                          className="px-6 py-2 bg-lime-500 rounded-md font-Montserrat font-bold text-white"
+                          onClick={HandleSubmit}
+                        >
                           Add Product
                         </button>
                       </div>
@@ -218,12 +241,19 @@ const HandleSubmit = async (e) => {
                   </form>
                 </div>
               )}
+
+              {/* show product data is here */}
+              {product && (
+                <div className="p-4">
+                  <Product />
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
     </>
- )}
+  );}
 
 
 export default AdminComponent

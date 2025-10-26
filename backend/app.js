@@ -9,6 +9,7 @@ const path = require("path");
 const {notFoundHandler,errHandler} = require("./Common/errorHandler")
 const addProduct = require("./Router/addRouter")
 
+
 const app = express();
 dotenv.config();
 
@@ -31,7 +32,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public", "uploads")));
 
 //  Route Handler
-app.use("/product", addProduct)
+app.use("/product", addProduct);
+
 
 // Not-Found Handler
 app.use(notFoundHandler);
