@@ -41,8 +41,8 @@ const Upload_Folder = `${__dirname}/../public/uploads`;
           file.mimetype === "image/jpeg"
         ) {
           cb(null, true);
-        } else {
-          cb(createError(400, "Only jpg, png or jpeg allowed"));
+        } else {       
+          cb(createError(500, "Only jpg, png or jpeg allowed"));
         }
       },
   });

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FaCirclePlus } from "react-icons/fa6";
 import { MdLocalGroceryStore } from "react-icons/md";
 import { FaChalkboardUser } from "react-icons/fa6";
+import { SuccessTost } from '../utils/utils';
 import axios from "axios"
 
 const AdminComponent = () => {
@@ -17,6 +18,7 @@ const AdminComponent = () => {
   });
 
   const[productPhoto,seproductPhoto] = useState(null);
+  const fileInputRef =  useRef(null);
 
 //HandleAdd Function is here
 const HandleAdd = () => {
@@ -53,9 +55,21 @@ const HandleSubmit = async (e) => {
       const res = await axios.post("http://localhost:5000/product", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-     alert(res.data.message)
-    } catch (err) {
-      console.error(err);
+      SuccessTost(res.data.message)
+      setproductData({
+        ...productData,
+        name: "",
+        title: "",
+        description: "",
+        category: "",
+        price: "",
+        stock: "",
+      });
+      // reset input file
+      fileInputRef.current.value = "";
+
+    }catch (error) {
+      alert(error.response.data.Error)
     }
 
 };
@@ -119,6 +133,7 @@ const HandleSubmit = async (e) => {
                           name="avatar"
                           className="cursor-pointer"
                           onChange={HandleChangeImg}
+                          ref={fileInputRef}
                           multiple
                         />
                       </div>
@@ -130,6 +145,7 @@ const HandleSubmit = async (e) => {
                           name="name"
                           className="w-[200px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
+                          value={productData.name}
                         />
                       </div>
                       <div>
@@ -140,6 +156,7 @@ const HandleSubmit = async (e) => {
                           name="title"
                           className="w-[300px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
+                           value={productData.title}
                         />
                       </div>
                       <div>
@@ -150,6 +167,7 @@ const HandleSubmit = async (e) => {
                           name="description"
                           className="w-[350px] outline-green-700 min-h-24  rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
+                          value={productData.description}
                         ></textarea>
                       </div>
                       <div>
@@ -158,6 +176,7 @@ const HandleSubmit = async (e) => {
                           id="category"
                           className="w-[300px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black cursor-pointer"
                           onChange={HandleChange}
+                           value={productData.name}
                         >
                           <option value="Select Catagory">
                             Select Catagory
@@ -176,6 +195,7 @@ const HandleSubmit = async (e) => {
                           name="price"
                           className="w-[100px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
+                           value={productData.price}
                         />
                       </div>
                       <div>
@@ -186,6 +206,7 @@ const HandleSubmit = async (e) => {
                           name="stock"
                           className="w-[100px] outline-green-700 rounded-md pl-3 py-1 bg-gray-100 border-[1px] border-black"
                           onChange={HandleChange}
+                           value={productData.stock}
                         />
                       </div>
                       <div>
