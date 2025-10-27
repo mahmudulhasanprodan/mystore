@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Static files
-app.use(express.static(path.join(__dirname, "public", "uploads")));
+app.use(express.static(__dirname + "/public/"));
 
 //  Route Handler
 app.use("/product", addProduct);

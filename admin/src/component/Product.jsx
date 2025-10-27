@@ -19,7 +19,7 @@ console.log(products)
   return (
     <>
       <div className="container">
-        <div className="flex items-center justify-center gap-x-4 flex-wrap gap-y-4">
+        <div className="flex items-center px-4 gap-x-4 flex-wrap gap-y-4 overflow-y-scroll h-[90vh]">
           {products?.map((item) => (
             <div
               className="w-[300px] h-[400px] bg-white shadow-md rounded-md"
@@ -27,7 +27,7 @@ console.log(products)
             >
               <div className="px-4">
                 <picture>
-                  <img src={img} alt={img} className="w-full h-[250px]" />
+                  <img src={`http://localhost:5000/uploads/${item.avatar[0]}`} alt={item.avatar} className="w-full h-[250px]" />
                 </picture>
               </div>
               <div className="mt-4 px-4">

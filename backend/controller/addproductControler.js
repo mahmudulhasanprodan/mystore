@@ -3,7 +3,10 @@ const Product = require("../Schemas/productSchema");
 
 const addproductControler = async (req,res,next) => {
 
-  const avatarFiles = req.files.map((file) => file.filename)
+  const avatarFiles = req.files.map((file) => file.filename);
+
+  console.log(req.files)
+
   
      let addProduct;
 
