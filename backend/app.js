@@ -24,7 +24,7 @@ app.use(cors({
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }))
 
-//  Requies Parser
+//  Requiest Parser
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 

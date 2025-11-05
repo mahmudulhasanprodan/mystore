@@ -13,7 +13,7 @@ router.post("/", UploadFile,validationErrorHandler, productValidation, addproduc
 
 router.get("/",getProduct);
 
-router.put("/:id", updateProduct);
+router.put("/:id", UploadFile,validationErrorHandler, updateProduct);
 
 
 
