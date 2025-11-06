@@ -5,6 +5,7 @@ const router = express.Router();
 const {addproductControler} = require("../controller/addproductControler");
 const {getProduct} = require("../controller/getproductControler");
 const {updateProduct} = require("../controller/updateProduct");
+const {deleteProduct} = require("../controller/deleteProduct")
 const UploadFile = require("../Middleware/imgUpload");
 const {productValidation,validationErrorHandler} = require("./../Middleware/addproductValidation");
  
@@ -14,6 +15,8 @@ router.post("/", UploadFile,validationErrorHandler, productValidation, addproduc
 router.get("/",getProduct);
 
 router.put("/:id", UploadFile,validationErrorHandler, updateProduct);
+
+router.delete("/:id", deleteProduct)
 
 
 

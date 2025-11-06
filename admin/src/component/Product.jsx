@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import img from  "../assets/Essence Mascara.jpg"
 import axios from 'axios';
-import { SuccessTost } from '../utils/utils';
+import { SuccessTost,ErrorTost } from '../utils/utils';
+
 
 const Product = () => {
 
@@ -9,6 +10,7 @@ const [products, setProducts] = useState([]);
 const [editModal,seteditModal] = useState(false)
 const [editData,seteditData] = useState([])
 const [updatadata,setupdatadata] = useState([]);
+const [deletedata,setdeletedata] = useState("");
 const[productPhoto,seproductPhoto] = useState(null);
 // const filenputref =  useRef(null);
 
@@ -19,7 +21,7 @@ async function DataFetcher() {
      setProducts(res.data.data);
      };
      DataFetcher();
-},[updatadata]);
+},[updatadata,deletedata]);
 
 // update HandleEdit Funciton is start here
 const HandleEdit = (item) => {
@@ -78,29 +80,48 @@ const UpdateProduct = async (e) => {
 };
 
 
+// HandleDelete Function is here
+const HandleDelete = async (item) => {
+    try {
+    const res = await axios.delete(`http://localhost:5000/product/${item._id}`);
+    setdeletedata(res)
+     ErrorTost(res.data.msg)
+    } catch (err) {
+       console.log(err)
+    }
+};
+
+
 
   return (
     <>
       <div className="container">
-        <div className="flex relative items-center cursor-pointer px-4 gap-x-4 flex-wrap gap-y-4 overflow-y-scroll h-[90vh]">
+        <div className="flex relative items-center px-4 gap-x-4 flex-wrap gap-y-4 overflow-y-scroll h-[90vh]">
           {products?.map((item) => (
             <div
-              className="w-[300px] h-[400px] bg-white shadow-md rounded-md"
+              className="w-[300px] h-[420px] bg-white shadow-md rounded-md"
               key={item._id}
-              onClick={() => HandleEdit(item)}
             >
-              <div className="px-4">
+              <div className="pl-3 pt-3">
+                <div
+                  className="w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
+                  onClick={() => HandleDelete(item)}
+                >
+                  <p className="font-bold text-2xl text-red-600">X</p>
+                </div>
+              </div>
+              <div className="px-4" onClick={() => HandleEdit(item)}>
                 <picture>
                   <img
                     src={`http://localhost:5000/uploads/${item.avatar[0]}`}
                     alt={item.avatar}
-                    className="w-full h-[250px] p-2"
+                    className="w-full h-[250px] p-2 cursor-pointer"
                   />
                 </picture>
               </div>
               <div className="mt-4 px-4">
                 <h1 className="font-Montserrat font-bold text-xl text-center">
-                  {item.title ? item.title : "Title Missing"}
+                  {item.title ? `${item.title.slice(0,20)}...` : "Title Missing"}
                 </h1>
                 <div className="flex flex-col items-center justify-center">
                   <h3 className="font-Montserrat font-semibold text-md text-green-600">
