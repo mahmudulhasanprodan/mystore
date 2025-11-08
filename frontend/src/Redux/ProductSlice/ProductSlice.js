@@ -28,11 +28,12 @@ export const ProductSLice = createSlice({
 
 // Writing The Thunk Function
 export const FeatureProduct = (apiData) => {
+  
    return async function GetProduct (dispatch,getState) {
      try {
       dispatch(Setstatus(ApiStatus.Loading))
-       const response = await axios.get(apiData);
-       dispatch(ProductData(response.data));
+       const response = apiData;
+       dispatch(ProductData(response));
        dispatch(Setstatus(ApiStatus.Idle))
        
      } catch (error) {

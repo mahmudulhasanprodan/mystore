@@ -19,24 +19,31 @@ const BestSellingProduct = () => {
   const CatValue = useContext(CatagoriContex);
   
   
-  
-   
+// Data Fea
+useEffect(() => {
+async function DataFetcher() {
+    const res = await axios.get("http://localhost:5000/product");
+     dispatch(FeatureProduct(res.data.data));
+     setfeatureData(res.data.data)
+     };
+     DataFetcher();
+},[]); 
   
 
-  useEffect(() => {
-    dispatch(FeatureProduct("https://dummyjson.com/products"));
-  },[])
+  // useEffect(() => {
+  //   dispatch(FeatureProduct("https://dummyjson.com/products"));
+  // },[])
 
   
 const{CartItem,Status} = useSelector((state) => state.Product);
 
-
+console.log(CartItem)
 
 useEffect(() => {
   if(Status === "IDLE"){
-    setfeatureData(CartItem.products)
+    setfeatureData(CartItem)
   }
-},[Status,CartItem.products])
+},[Status,CartItem])
 
 
 
@@ -92,7 +99,7 @@ const HandleWish = (item) => {
                             ProductDetails={() => HandleProduct(item)}
                             CartProduct={() => HandleCart(item)}
                             WishProduct={() => HandleWish(item)}
-                            FeatueImage={item.thumbnail}
+                            FeatueImage={`http://localhost:5000/uploads/${item.avatar[0]}`}
                             Title={`${item.title.slice(0, 16)}....`}
                             MainPrice={`$${Math.round(item.price)}`}
                             Price={`$${
@@ -111,7 +118,7 @@ const HandleWish = (item) => {
                             ProductDetails={() => HandleProduct(item)}
                             CartProduct={() => HandleCart(item)}
                             WishProduct={() => HandleWish(item)}
-                            FeatueImage={item.thumbnail}
+                            FeatueImage={`http://localhost:5000/uploads/${item.avatar[0]}`}
                             Title={`${item.title.slice(0, 16)}....`}
                             MainPrice={`$${Math.round(item.price)}`}
                             Price={`$${
