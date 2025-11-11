@@ -25,6 +25,7 @@ const ProductDetails = () => {
 
 const dispatch = useDispatch();
 const {ProductId} = useParams();
+console.log(ProductId)
 const Navigate = useNavigate();
 const[ZoomImage,setZoomImage] = useState(false)
 const[realtime,setrealtime] = useState(false)
@@ -39,14 +40,17 @@ const[commentinputError,setcommentinputError] = useState({
 })
 
 
+
 //Data Feacthing Is Here
 useEffect(() => {
-  dispatch(FeatureProduct(`https://dummyjson.com/products/${ProductId}`));
+  dispatch(FeatureProduct(`http://localhost:5000/product/${ProductId}`));
 },[]);
 
 
-const{CartItem}=useSelector((state) => state.Product);
 
+const {CartItem} = useSelector((state) => state.Product);
+
+console.log(CartItem)
 
 
 
@@ -153,28 +157,10 @@ function SamplePrevArrow(props) {
     });
   }else{
 
-    addDoc(collection(db, "Comment"),{
-      name : commentinput.Name,
-      Messege: commentinput.InputMessege,
-      ProductId : CartItem.id, 
-    }).then(() => {
-      setrealtime(!realtime);
-      CartItem.id
-      SuccessToast(`${commentinput.Name} Commented`)
-    }).catch((error) => {
-      console.log(error);
       
-    }).finally(() => {
-        setcommentinput({
-          Name: "",
-          InputMessege: "",
-        });
-    })
-
-    
-  }
-   
+    }
  };
+   
 
   return (
     <>
@@ -183,12 +169,12 @@ function SamplePrevArrow(props) {
           <Flex className={"flex-col md:flex-row gap-x-10 py-10"}>
             <div className="md:w-[400px]">
               <Slider {...settings}>
-                {CartItem.images?.map((img, index) => (
+                {CartItem.avatar?.map((img, index) => (
                   <div key={index} className="relative">
                     <Zoom>
                       <picture>
                         <img
-                          src={img}
+                          src={`http://localhost:5000/uploads/${img}`}
                           alt={img}
                           className="border-2 w-full md:w-[400px] h-full md:h-[400px]"
                         />
@@ -202,7 +188,7 @@ function SamplePrevArrow(props) {
             <div className="flex flex-col gap-y-5">
               <div>
                 <h2 className="font-Montserrat font-semibold text-2xl mb-3">
-                  {CartItem.title ? CartItem.title : "Title Missing"}
+                  {CartItem.name ? CartItem.name : "Title Missing"}
                 </h2>
                 <p className="font-Montserrat font-bold text-xl">
                   $

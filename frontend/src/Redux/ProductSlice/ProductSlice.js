@@ -31,9 +31,9 @@ export const FeatureProduct = (apiData) => {
   
    return async function GetProduct (dispatch,getState) {
      try {
-      dispatch(Setstatus(ApiStatus.Loading))
-       const response = apiData;
-       dispatch(ProductData(response));
+       dispatch(Setstatus(ApiStatus.Loading))
+       const response = await axios.get(apiData);
+       dispatch(ProductData(response.data.data));
        dispatch(Setstatus(ApiStatus.Idle))
        
      } catch (error) {

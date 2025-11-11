@@ -20,24 +20,23 @@ const BestSellingProduct = () => {
   
   
 // Data Fea
-useEffect(() => {
-async function DataFetcher() {
-    const res = await axios.get("http://localhost:5000/product");
-     dispatch(FeatureProduct(res.data.data));
-     setfeatureData(res.data.data)
-     };
-     DataFetcher();
-},[]); 
+// useEffect(() => {
+// async function DataFetcher() {
+//     const res = await axios.get("http://localhost:5000/product");
+//      dispatch(FeatureProduct(res.data.data));
+//      setfeatureData(res.data.data)
+//      };
+//      DataFetcher();
+// },[]); 
   
 
-  // useEffect(() => {
-  //   dispatch(FeatureProduct("https://dummyjson.com/products"));
-  // },[])
+  useEffect(() => {
+    dispatch(FeatureProduct("http://localhost:5000/product"));
+  },[])
 
   
 const{CartItem,Status} = useSelector((state) => state.Product);
 
-console.log(CartItem)
 
 useEffect(() => {
   if(Status === "IDLE"){
@@ -55,7 +54,7 @@ const HandleCart = (item) => {
 
 //HandleProduct Function Start Here
 const HandleProduct = (item) => {
-  Navigate(`/productdetails/${item.id}`);
+  Navigate(`/productdetails/${item._id}`);
 };
 
 //HandleWish Function Start Here
@@ -93,7 +92,7 @@ const HandleWish = (item) => {
               >
                 {CatValue
                   ? CatValue?.map((item) => (
-                      <div key={item.id}>
+                      <div key={item._id}>
                         <div>
                           <Card
                             ProductDetails={() => HandleProduct(item)}
@@ -112,7 +111,7 @@ const HandleWish = (item) => {
                       </div>
                     ))
                   : featureData?.map((item) => (
-                      <div key={item.id}>
+                      <div key={item._id}>
                         <div>
                           <Card
                             ProductDetails={() => HandleProduct(item)}
