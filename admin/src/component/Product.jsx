@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
-import img from  "../assets/Essence Mascara.jpg"
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { SuccessTost,ErrorTost } from '../utils/utils';
 
@@ -96,13 +95,13 @@ const HandleDelete = async (item) => {
   return (
     <>
       <div className="container">
-        <div className="flex relative items-center px-4 gap-x-4 flex-wrap gap-y-4 overflow-y-scroll h-[90vh]">
+        <div className="flex relative items-center px-4 gap-x-6 flex-wrap gap-y-6 overflow-y-scroll h-[90vh] mt-10 ">
           {products?.map((item) => (
             <div
               className="w-[300px] h-[420px] bg-white shadow-md rounded-md"
               key={item._id}
             >
-              <div className="pl-3 pt-3">
+              <div className="pl-3">
                 <div
                   className="w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
                   onClick={() => HandleDelete(item)}
@@ -141,7 +140,7 @@ const HandleDelete = async (item) => {
           {editModal && (
             <div>
               <div className="absolute top-0 left-0 opacity-25 w-[100vw] h-[100vh] bg-slate-500"></div>
-              <div className="absolute  top-2 bg-gray-400 m-auto p-6 rounded-md z-50 shadow-lg">
+              <div className="absolute  top-10 bg-gray-400 m-auto p-6 rounded-md z-50 shadow-lg">
                 <div>
                   <h2
                     className="flex items-center justify-end font-bold text-2xl text-red-600 cursor-pointer"

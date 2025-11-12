@@ -86,7 +86,7 @@ const HandleProduct = () => {
   return (
     <>
       <div>
-        <div className="container">
+        <div>
           <div className="flex items-center">
             <div className="w-1/6 h-[100vh] bg-slate-600">
               <div className="flex items-center justify-center py-4">
